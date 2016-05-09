@@ -4,13 +4,9 @@ body {
     background: #000;
 }
 
-p, h1, h2, li {
+h1, h2, li {
     color: #000;
     margin: 0;
-}
-
-h1 {
-
 }
 
 ul {
@@ -19,19 +15,17 @@ ul {
 
 li {
   list-style: none;
-  padding: 0;
+  padding: 10px;
 }
 
-div {
-    text-align: center;
+#myTabContent {
+  text-align: center;
+}
+
+.main_contents {
+    font-size: 32px;
 }
 
 canvas {
-    background: #fff;
-}
-
-.dashboard {
-    text-align: center;
-    font-size: 66px;
-    text-decoration:underline;; 
+    background-color: #AFEEEE;
 }

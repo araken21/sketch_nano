@@ -6,9 +6,25 @@
     <link rel="stylesheet" href="/css/style.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <script src="/js/jquery-1.12.3.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
   </head>
   <body>
-    <%= yield %>
+    <div id="header" class="container"></div>
+
+      <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a href="/" data-toggle="tab">ホーム</a></li>
+        <li><a href="dashboard" data-toggle="tab">マイお絵かき</a></li>
+        <li><a href="draw" data-toggle="tab">絵を描く</a></li>
+      </ul>
+
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="tab">
+          <%= yield %>
+        </div>
+      </div>
+
+    <div id="footer" class="container"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
   </body>
 </html>

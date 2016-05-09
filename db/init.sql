@@ -8,4 +8,3 @@ CREATE TABLE pictures (
     likes        INTEGER DEFAULT 0,
     posted_at    DATETIME
 );
-
