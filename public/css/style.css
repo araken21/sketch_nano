@@ -1,7 +1,37 @@
+
+
 body {
-    background: #bdf;
+    background: #000;
+}
+
+p, h1, h2, li {
+    color: #000;
+    margin: 0;
+}
+
+h1 {
+
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  padding: 0;
+}
+
+div {
+    text-align: center;
 }
 
 canvas {
     background: #fff;
+}
+
+.dashboard {
+    text-align: center;
+    font-size: 66px;
+    text-decoration:underline;; 
 }
