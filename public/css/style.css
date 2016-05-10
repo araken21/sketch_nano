@@ -29,3 +29,7 @@ li {
 canvas {
     background-color: #fff;
 }
+
+.draw_menu {
+  float: left;
+}

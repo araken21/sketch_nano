@@ -51,6 +51,7 @@ $(function () {
     }
 
     if (isDrawing) {
+      context2d.lineCap = "round";
       context2d.lineTo(x, y);
       context2d.stroke();
     }
@@ -61,6 +62,7 @@ $(function () {
     isDrawing = false;
 
     if ($in_text.val() != "" ) {
+      context2d.fillStyle = $('#pen_color').val()
       context2d.fillText($in_text.val(),
       e.originalEvent.layerX,
       e.originalEvent.layerY

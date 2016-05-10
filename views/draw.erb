@@ -1,11 +1,24 @@
-<div class="drawbox">
-  <h1></h1>
-  <p><canvas id="draw_canvas" width="640px" height="480px"></canvas></p>
-  <p><input type="text" name="title" placeholder="絵のタイトル"></input></p>
-  <button class="save">保存する</button>
-  <button class="clear">クリアする</button>
-  <input type="text" id = "in_text">
-  <input type="range" name="stroke" id="stroke">
-  <input type="color" name="pen_color" id="pen_color" placeholder="入れる文字">
+<div class="container-fluid drawbox">
+	<div class="row">
+		<div class="col-md-3">
+    </div>
+
+    <div class="col-md-6" style="border:#d0d0d0 outset 5px; padding:0px;">
+      <p><canvas id="draw_canvas" width="600px" height="450px"></canvas></p>
+    </div>
+
+    <div class="col-md-3">
+      <div class="draw_menu">
+        <ol>
+          <li><input type="text" name="title" placeholder="絵のタイトル"></input></li>
+          <li><input type="text" id="in_text" placeholder="入れる文字"></li>
+          <li><input type="range" name="stroke" id="stroke" value="5"></li>
+          <li><input type="color" name="pen_color" id="pen_color" ></li>
+          <li><button class="save">保存する</button></li>
+          <li><button class="clear">クリアする</button></li>
+        </ol>
+      </div>
+    </div>
+	</div>
 </div>
 <script src="/js/draw.js"></script>
