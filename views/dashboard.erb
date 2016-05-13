@@ -7,7 +7,11 @@
       <%= post["title"] %>
     </h2>
     <p class="post-image">
+
+    <a href="/uploads/<%=post["src"] %>" data-lightbox="image">
     <img src="/uploads/<%= post["src"] %>" alt="<%= post["title"] %>">
+    </a>
+
     </p>
     <p>
     💖
