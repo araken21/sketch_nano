@@ -30,7 +30,8 @@ $(function () {
     var $pen_color = $('#pen_color');
     var pen_color = $pen_color.val();
     context2d.strokeStyle = pen_color; //htmlの中にJSで使える仕様が書かれている
-
+    context2d.lineJoin = 'round'
+    context2d.lineCap = 'round'
     context2d.beginPath();
     context2d.moveTo(x, y);
     isDrawing = true;
@@ -78,10 +79,13 @@ $(function () {
   $('button.save').click(function (e) {
     var dataUrl = canvas.toDataURL();
     var title = $('.drawbox input[name=title]').val();
+    var adult = $('.drawbox input[name=adult]').prop("checked"); //cmd shift d
+
 
     $.post('/draw', {
       src: dataUrl,
-      title: title
+      title: title,
+      adult: adult,
     }, function (result) {
       alert('保存しました！');
       // 画面を真っ白にする

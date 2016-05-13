@@ -16,7 +16,12 @@ get '/' do
 end
 
 get '/dashboard' do
-  posts = db.execute("SELECT * FROM pictures ORDER BY id DESC")
+  if params[:adult] == "1"
+    posts = db.execute("SELECT * FROM pictures ORDER BY id DESC")
+  else
+    posts = db.execute("SELECT * FROM pictures WHERE adult is null ORDER BY id DESC")
+  end
+
   erb :dashboard, {:locals => {:posts => posts}}
 end
 
@@ -35,15 +40,17 @@ post '/draw' do
   File.open("./public/uploads/" + name, "wb") do |file|
     file.write img
   end
-
   # DBに登録する
   time = Time.now.strftime('%Y-%m-%d %H:%M:%S')
-  sql = "INSERT INTO pictures (title, src, posted_at) VALUES ('#{params['title']}', '#{name}', '#{time}')"
+  adult_i = params[:adult]? "1" : "0"
+  sql = "INSERT INTO pictures (title, src, posted_at,adult) VALUES ('#{params['title']}', '#{name}', '#{time}', '#{adult_i}')"
   db.execute_batch(sql)
 
   # 終わったらダッシュボードに戻る
   redirect '/dashboard'
 end
 
-get '/api/like' do
+post '/api/like' do
+  sql = "UPDATE pictures SET likes=likes+1 WHERE(id = '#{params[:id]}')"
+  db.execute_batch(sql)
 end
