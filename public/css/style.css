@@ -33,3 +33,11 @@ canvas {
 .draw_menu {
   float: left;
 }
+.like_num {
+  font-size: 36px;
+  display: block;
+}
+
+.like_num .like{
+  float: left;
+}

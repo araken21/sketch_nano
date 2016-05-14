@@ -1,14 +1,19 @@
 'use strict'
 
 $(function () {
-  $('button.like').click(function (e) {
+  $('input.like').click(function (e) {
     var $clicked = $(this);
+    var $parent = $(this).parent();
     var dataId   = $clicked.data('id');
-    var likes    = $clicked.text();
+    var likes    = $parent.find('.like_num').html();
     $.post('/api/like',{
-      id: dataId
+      id: parseInt(dataId, 10)
     });
-    $clicked.text(parseInt(likes, 10) + 1);
+    $parent.find('.like_num').html(parseInt(likes, 10) - 1);
+    if (likes == 0) {
+    　　　$(this).fadeOut(0);
+         $(this).parent().parent().fadeOut(0);
+    }　　
   });
 });
 

@@ -19,7 +19,7 @@ get '/dashboard' do
   if params[:adult] == "1"
     posts = db.execute("SELECT * FROM pictures ORDER BY id DESC")
   else
-    posts = db.execute("SELECT * FROM pictures WHERE adult is null ORDER BY id DESC")
+    posts = db.execute("SELECT * FROM pictures WHERE adult is null or adult = 0 ORDER BY id DESC")
   end
 
   erb :dashboard, {:locals => {:posts => posts}}
@@ -42,8 +42,12 @@ post '/draw' do
   end
   # DBに登録する
   time = Time.now.strftime('%Y-%m-%d %H:%M:%S')
-  adult_i = params[:adult]? "1" : "0"
-  sql = "INSERT INTO pictures (title, src, posted_at,adult) VALUES ('#{params['title']}', '#{name}', '#{time}', '#{adult_i}')"
+  if params[:adult] == "true"
+    adult_i = "1"
+  else
+    adult_i = "0"
+  end
+  sql = "INSERT INTO pictures (title, src,likes, posted_at, adult) VALUES ('#{params['title']}', '#{name}', 5,'#{time}', '#{adult_i}')"
   db.execute_batch(sql)
 
   # 終わったらダッシュボードに戻る
@@ -51,6 +55,14 @@ post '/draw' do
 end
 
 post '/api/like' do
-  sql = "UPDATE pictures SET likes=likes+1 WHERE(id = '#{params[:id]}')"
-  db.execute_batch(sql)
+  sql = "SELECT * FROM pictures WHERE(id = '#{params[:id]}')"
+  post = db.execute(sql)
+
+  if post[0]["likes"] < 0
+   sql = "DELETE FROM pictures WHERE(id = '#{params[:id]}')"
+   db.execute_batch(sql)
+  else
+    sql = "UPDATE pictures SET likes=likes-1 WHERE(id = '#{params[:id]}')"
+    db.execute_batch(sql)
+  end
 end

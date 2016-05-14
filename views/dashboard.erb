@@ -1,23 +1,20 @@
 
-<h1></h1>
 <a href="?adult=1">エロいよ</a>
 <% posts.each do |post| %>
-  <div class="post">
+  <div class="post" data-id="<%= post["id"] %>">
     <h2>
       <%= post["title"] %>
     </h2>
     <p class="post-image">
-
     <a href="/uploads/<%=post["src"] %>" data-lightbox="image">
-    <img src="/uploads/<%= post["src"] %>" alt="<%= post["title"] %>">
+    <img src="/uploads/<%= post["src"] %>" alt="<%= post['title'] %>">
     </a>
-
     </p>
     <p>
-    💖
-    <button class="like" data-id="<%= post["id"] %>">
-      <%= post["likes"] %>
-    </button>
+    <div class="like_btn">
+    <input class="like" type="image" src="/images/bad.png"  class="like" data-id="<%= post["id"] %>">
+    <span class="like_num" data-id="<%= post['id'] %>"> <%= post["likes"]%> </span>
+    </div>
     </p>
   </div>
 <% end %>
