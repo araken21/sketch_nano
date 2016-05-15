@@ -1,21 +1,26 @@
+<script src="/js/dashboard.js"></script>
 
-<a href="?adult=1">エロいよ</a>
+<p>
+  <a href="?adult=1">エロいよ</a>
+</p>
+
+<div id="contents_main_box">
 <% posts.each do |post| %>
-  <div class="post" data-id="<%= post["id"] %>">
+  <div class="post" data-id="<%= post["id"] %>" style="border:#d0d0d0 outset 5px; margin:0px;">
     <h2>
       <%= post["title"] %>
     </h2>
     <p class="post-image">
-    <a href="/uploads/<%=post["src"] %>" data-lightbox="image">
-    <img src="/uploads/<%= post["src"] %>" alt="<%= post['title'] %>">
-    </a>
+      <a href="/uploads/<%=post["src"] %>" data-lightbox="image">
+      <img src="/uploads/<%= post["src"] %>" alt="<%= post['title'] %>">
+      </a>
     </p>
     <p>
     <div class="like_btn">
-    <input class="like" type="image" src="/images/bad.png"  class="like" data-id="<%= post["id"] %>">
-    <span class="like_num" data-id="<%= post['id'] %>"> <%= post["likes"]%> </span>
+      <input class="like" type="image" src="/images/bad.png"  class="like" data-id="<%= post["id"] %>">
+      <span class="like_num" data-id="<%= post['id'] %>"> <%= post["likes"]%> </span>
     </div>
     </p>
   </div>
 <% end %>
-<script src="/js/dashboard.js"></script>
+</div>

@@ -10,21 +10,27 @@ $(function () {
       id: parseInt(dataId, 10)
     });
     $parent.find('.like_num').html(parseInt(likes, 10) - 1);
-    if (likes == 0) {
+    if (likes <= 0) {
     　　　$(this).fadeOut(0);
-         $(this).parent().parent().fadeOut(0);
+    　　　$(this).parent().fadeOut(0);
+		     $(this).parent().parent().remove().fadeOut("slow");
+       	 $('#contents_main_box').freetile({
+         	selector: '.post'
+         	});
     }　　
   });
 });
 
+$(function() {
+	$('#contents_main_box').freetile({
+	selector: '.post'
+	});
+});
 
+$(window).load(function(){
+	$('#contents_main_box').freetile({
+	selector: '.post'
+	});
+});
 
-
-// function postList() {
-//   $.post(
-//       "http://konome.org/put.php",
-//       {'name': $("#name").val(), 'prj': $("#prj").val()},
-//       alert("登録しました")
-//   );
-//   getList();
-// }
+///ここは鬼門　　JSイベントタイミング

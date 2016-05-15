@@ -10,26 +10,26 @@
     <!-- <script src="/js/jquery-1.12.3.min.js"></script> -->
 
   </head>
+
   <body>
-    <div id="header" class="container"></div>
+    <div id="header" class="container">
+    </div>
 
-      <ul class="nav nav-tabs nav-justified">
-        <li><a href="/" data-toggle="tab">ホーム</a></li>
-        <li><a href="dashboard" data-toggle="tab">マイお絵かき</a></li>
-        <li><a href="draw" data-toggle="tab">絵を描く</a></li>
-      </ul>
+    <ul class="nav nav-tabs nav-justified">
+      <li><a href="/" >ホーム</a></li>
+      <li><a href="/dashboard" >マイお絵かき</a></li>
+      <li><a href="/draw">絵を描く</a></li>
+    </ul>
 
-      <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade in active" id="tab">
-          <%= yield %>
-        </div>
-      </div>
+    <div id="myTabContent" class="clearfix">
+        <%= yield %>
+    </div>
 
     <div id="footer" class="container"></div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/lightbox.js"></script>
+    <script src="js/jquery.freetile.js"></script>
   </body>
 
 </html>

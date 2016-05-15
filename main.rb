@@ -58,11 +58,11 @@ post '/api/like' do
   sql = "SELECT * FROM pictures WHERE(id = '#{params[:id]}')"
   post = db.execute(sql)
 
-  if post[0]["likes"] < 0
-   sql = "DELETE FROM pictures WHERE(id = '#{params[:id]}')"
-   db.execute_batch(sql)
-  else
-    sql = "UPDATE pictures SET likes=likes-1 WHERE(id = '#{params[:id]}')"
-    db.execute_batch(sql)
-  end
+   if post[0]["likes"] <= 0
+     sql = "DELETE FROM pictures WHERE(id = '#{params[:id]}')"
+     db.execute_batch(sql)
+   else
+      sql = "UPDATE pictures SET likes=likes-1 WHERE(id = '#{params[:id]}')"
+      db.execute_batch(sql)
+   end
 end
