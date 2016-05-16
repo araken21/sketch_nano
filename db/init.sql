@@ -6,5 +6,6 @@ CREATE TABLE pictures (
     src          TEXT,
     author_name  TEXT,
     likes        INTEGER DEFAULT 0,
-    posted_at    DATETIME
+    posted_at    DATETIME,
+    adult        INTEGER
 );

@@ -11,6 +11,11 @@ logger = Logger.new(STDOUT)
 db = SQLite3::Database.new 'db/post.db'
 db.results_as_hash = true
 
+error do |e|
+  status 400
+  body e.message
+end
+
 get '/' do
   erb :index
 end
@@ -30,6 +35,7 @@ get '/draw' do
 end
 
 post '/draw' do
+
   datauri = params['src']
   img = URI::Data.new(datauri).data
 
@@ -47,22 +53,33 @@ post '/draw' do
   else
     adult_i = "0"
   end
-  sql = "INSERT INTO pictures (title, src,likes, posted_at, adult) VALUES ('#{params['title']}', '#{name}', 5,'#{time}', '#{adult_i}')"
-  db.execute_batch(sql)
+  sql = "INSERT INTO pictures (title, src, posted_at,adult) VALUES (:title, :name, :time, :adult)"
+  db.execute(sql,
+    "title" => params[:title],
+    "name" => params[:name],
+    "time" => time,
+    "adult" => params[:adult]
+  )
 
   # 終わったらダッシュボードに戻る
   redirect '/dashboard'
 end
 
 post '/api/like' do
-  sql = "SELECT * FROM pictures WHERE(id = '#{params[:id]}')"
-  post = db.execute(sql)
+  sql = "SELECT * FROM pictures WHERE(id = :id')"
+  post = db.execute(sql,
+  "id" => params[:id]
+  )
 
    if post[0]["likes"] <= 0
-     sql = "DELETE FROM pictures WHERE(id = '#{params[:id]}')"
-     db.execute_batch(sql)
+     sql = "DELETE FROM pictures WHERE(id = :id)"
+     db.execute(sql,
+     "id" => params[:id]
+     )
    else
-      sql = "UPDATE pictures SET likes=likes-1 WHERE(id = '#{params[:id]}')"
-      db.execute_batch(sql)
+      sql = "UPDATE pictures SET likes=likes-1 WHERE(id = :id)"
+      db.execute(sql,
+      "id" => params[:id]
+      )
    end
 end
