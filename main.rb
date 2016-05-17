@@ -4,6 +4,8 @@ require 'sinatra/json'
 require 'data_uri'
 require 'securerandom'
 require 'logger'
+require 'sinatra/reloader'
+require 'json'
 
 logger = Logger.new(STDOUT)
 
@@ -11,9 +13,9 @@ logger = Logger.new(STDOUT)
 db = SQLite3::Database.new 'db/post.db'
 db.results_as_hash = true
 
-error do |e|
-  status 400
-  body e.message
+error 400 do
+ status 400
+ body 'リクエストが不正です'
 end
 
 get '/' do
@@ -35,9 +37,12 @@ get '/draw' do
 end
 
 post '/draw' do
+  title = params[:title]
+  adult_i = params[:adult]
 
-  datauri = params['src']
+  datauri = params['src']  # UR がデータ　il で範囲が決まるイメージ
   img = URI::Data.new(datauri).data
+
 
   # ファイル名をつける
   name = SecureRandom.hex + '.png'
@@ -48,17 +53,19 @@ post '/draw' do
   end
   # DBに登録する
   time = Time.now.strftime('%Y-%m-%d %H:%M:%S')
+
   if params[:adult] == "true"
     adult_i = "1"
   else
     adult_i = "0"
   end
-  sql = "INSERT INTO pictures (title, src, posted_at,adult) VALUES (:title, :name, :time, :adult)"
+  sql = "INSERT INTO pictures (title, src, likes, posted_at,adult) VALUES (:title, :name, :likes, :time, :adult)"
   db.execute(sql,
     "title" => params[:title],
-    "name" => params[:name],
+    "name" => name,
+    "likes" => 5,
     "time" => time,
-    "adult" => params[:adult]
+    "adult" => adult_i
   )
 
   # 終わったらダッシュボードに戻る
@@ -66,20 +73,27 @@ post '/draw' do
 end
 
 post '/api/like' do
-  sql = "SELECT * FROM pictures WHERE(id = :id')"
-  post = db.execute(sql,
-  "id" => params[:id]
-  )
+  postid = params[:id].to_i
+  unless postid
+    error 400
+  end
 
-   if post[0]["likes"] <= 0
-     sql = "DELETE FROM pictures WHERE(id = :id)"
-     db.execute(sql,
-     "id" => params[:id]
-     )
-   else
-      sql = "UPDATE pictures SET likes=likes-1 WHERE(id = :id)"
-      db.execute(sql,
-      "id" => params[:id]
-      )
-   end
+  sql = "SELECT id, likes FROM pictures WHERE id = :id"
+  post = db.execute(sql, id: postid)
+
+  if post.length == 1
+    post = post[0]
+  else
+    error 400
+  end
+
+  if post["likes"] <= 0
+     sql = "DELETE FROM pictures WHERE id = :id"
+     db.execute(sql, id: postid)
+     JSON.generate({status: 'delete', id: postid})
+  else
+     sql = "UPDATE pictures SET likes = likes - 1 WHERE id = :id"
+     db.execute(sql, id: postid)
+     JSON.generate({status: 'update', id: postid, likes: post['likes'] - 1})
+  end
 end

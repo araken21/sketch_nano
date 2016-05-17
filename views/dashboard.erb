@@ -8,7 +8,7 @@
 <% posts.each do |post| %>
   <div class="post" data-id="<%= post["id"] %>" style="border:#d0d0d0 outset 5px; margin:0px;">
     <h2>
-      <%= Rack::Utils.escape_html post['title']  %>
+      <%= Rack::Utils.escape_html post["title"] %>
     </h2>
     <p class="post-image">
       <a href="/uploads/<%=post["src"] %>" data-lightbox="image">
